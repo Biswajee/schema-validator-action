@@ -16,6 +16,9 @@ jobs:
       - name: Display current file system structure
         run: tree
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Build action
         run: npm run package
       
