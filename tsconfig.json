@@ -11,7 +11,6 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "lib": ["es6", "es2015", "dom"],
-    "types": ["mocha", "node"],
     "moduleResolution": "node"
   },
   "include": ["**/*.ts"]
