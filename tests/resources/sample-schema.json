@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/sampleSchema",
+    "definitions": {
+        "sampleSchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "hobbies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "age": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "age",
+                "firstname",
+                "hobbies",
+                "lastname",
+                "username"
+            ],
+            "title": "sampleSchema"
+        }
+    }
+}
