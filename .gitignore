@@ -1,0 +1,10 @@
+# code editor config
+.vscode/
+.idea/
+
+# JS modules
+node_modules/
+
+# Compiled JS code
+dist/
+*.js

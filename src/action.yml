@@ -1,0 +1,15 @@
+name: 'Schema Validator Action'
+author: Biswajit Roy <roy.biswajeet161@gmail.com>
+description: 'Validates a json/yaml file against a schema'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+branding:
+  icon: 'shield'
+  color: 'green'
+inputs:
+  # the url of the JSON / YAML schema
+  schema-url:
+    description: 'The URL of the schema file'
+    required: true
+    default: 'https://example.com/schema.json'

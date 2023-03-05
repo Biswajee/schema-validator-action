@@ -1,0 +1,77 @@
+{
+  "name": "schema-validator-action",
+  "version": "0.0.0",
+  "description": "Github action that validates a JSON/YAML file against a schema",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "compile": "npm run clean && tsc",
+    "fmt": "prettier --write . && eslint --fix .",
+    "lint": "eslint .",
+    "test": "npm run clean && NODE_ENV=test nyc mocha $npm_package_config_mocha_args",
+    "restore": "for i in $(find -maxdepth 2 -mindepth 2 -name package.json -printf '%h\n'); do cd $i; npm install --only=prod --no-package-lock; cd ..; done",
+    "package": "npm run compile && ncc build dist/index.js --license licenses.txt",
+    "publish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Biswajee/schema-validator-action.git"
+  },
+  "keywords": [
+    "schema",
+    "validation",
+    "action"
+  ],
+  "author": "Biswajit Roy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Biswajee/schema-validator-action/issues"
+  },
+  "homepage": "https://github.com/Biswajee/schema-validator-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
+  },
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@types/chai": "^4.3.4",
+    "@types/chai-as-promised": "^7.1.5",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.14.6",
+    "@types/sinon": "^10.0.13",
+    "@types/sinon-chai": "^3.2.9",
+    "@vercel/ncc": "^0.36.1",
+    "chai": "^4.3.7",
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-html-reporter": "^0.7.4",
+    "mocha": "^10.2.0",
+    "mocha-junit-reporter": "^2.2.0",
+    "npm": "^9.6.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.8.4",
+    "sinon-chai": "^3.7.0",
+    "typescript": "^4.9.5"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "per-file": true,
+    "lines": 80,
+    "all": true,
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "include": [
+      "**/*.ts"
+    ],
+    "exclude": [
+      "**/*.spec.ts",
+      "**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "cobertura",
+      "html"
+    ],
+    "report-dir": "./coverage"
+  }
+}
