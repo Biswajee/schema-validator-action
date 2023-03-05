@@ -1,0 +1,18 @@
+on: workflow_dispatch
+
+jobs:
+  action_integration_test:
+    runs-on: ubuntu-latest
+    name: Test whether the action works as expected in the pipeline
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Display current file system structure
+        run: tree
+
+      - name: Schema validator action
+        uses: ./
+        with:
+          schema-url: 'https://raw.githubusercontent.com/Biswajee/schema-validator-action/master/tests/resources/sample-schema.json'
+          json-url: 'https://raw.githubusercontent.com/Biswajee/schema-validator-action/master/tests/resources/sample-data.json'
