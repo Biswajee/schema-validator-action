@@ -152,7 +152,7 @@ const exec = async (): Promise<void> => {
     const workingDirectory = path.join(runnerTemporaryPath, tmpDir);
     fs.mkdirSync(workingDirectory, { recursive: true });
 
-    decideInputResources(workingDirectory);
+    await decideInputResources(workingDirectory);
     const result = evaluate(workingDirectory);
     if (!result)
       core.setFailed(
