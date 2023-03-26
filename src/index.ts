@@ -4,7 +4,7 @@ import fs from 'fs';
 import fse from 'fs-extra';
 import path from 'path';
 import axios from 'axios';
-import Ajv, { JSONSchemaType } from 'ajv';
+import Ajv from 'ajv';
 
 tmp.setGracefulCleanup();
 
@@ -111,43 +111,27 @@ const decideInputResources = async (tmpDir: string): Promise<void> => {
 };
 
 // Evaluate the JSON file against the schema
-const evaluate = (tmpDir: string) => {
+const evaluate = (tmpDir: string): boolean => {
   const ajv = new Ajv();
+  console.log(`Attempting to parse the schema and data files at: ${tmpDir}`);
 
-  interface MyData {
-    foo: number;
-    bar?: string;
-  }
+  const schema = JSON.parse(
+    fs.readFileSync(`${tmpDir}/schema.json`, { encoding: 'utf-8' }),
+  );
+  const data = JSON.parse(
+    fs.readFileSync(`${tmpDir}/data.json`, { encoding: 'utf-8' }),
+  );
 
-  const schema: JSONSchemaType<MyData> = {
-    type: 'object',
-    properties: {
-      foo: { type: 'integer' },
-      bar: { type: 'string', nullable: true },
-    },
-    required: ['foo'],
-    additionalProperties: false,
-  };
-
-  // validate is a type guard for MyData - type is inferred from schema type
   const validate = ajv.compile(schema);
 
-  // or, if you did not use type annotation for the schema,
-  // type parameter can be used to make it type guard:
-  // const validate = ajv.compile<MyData>(schema)
-
-  const data = {
-    foo: 1,
-    bar: 'abc',
-  };
-
-  console.log(`The temporary directory is : ${tmpDir}`);
-
   if (validate(data)) {
-    // data is MyData here
-    console.log(data.foo);
+    console.log(
+      'Validation successful for the provided data against the provided schema 👍',
+    );
+    return true;
   } else {
-    console.log(validate.errors);
+    console.log(`Validation unsuccessful due to: ${validate.errors}`);
+    return false;
   }
 };
 
@@ -159,7 +143,11 @@ const exec = async (): Promise<void> => {
     fs.mkdirSync(path.join(runnerTemporaryPath, tmpDir), { recursive: true });
 
     decideInputResources(tmpDir);
-    evaluate(tmpDir);
+    const result = evaluate(tmpDir);
+    if (!result)
+      core.setFailed(
+        'Data validation failed. Please check if the data is vaild!',
+      );
   } catch (err: any) {
     core.setFailed(err.message);
   }
