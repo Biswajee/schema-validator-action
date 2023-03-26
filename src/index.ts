@@ -129,7 +129,7 @@ const evaluate = (tmpDir: string): boolean => {
     );
     return true;
   } else {
-    console.log(`Validation unsuccessful due to: ${validate.errors}`);
+    console.log(`Validation unsuccessful due to: ${validate.errors?.toString()}`);
     return false;
   }
 };
