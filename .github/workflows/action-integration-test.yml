@@ -28,5 +28,5 @@ jobs:
       - name: Schema validator action
         uses: ./dist
         with:
-          schema-url: 'https://raw.githubusercontent.com/Biswajee/Azure-DevOps-Extensions-Workshop/master/src/package.json'
-          json-url: 'https://raw.githubusercontent.com/Biswajee/Azure-DevOps-Extensions-Workshop/master/src/package.json'
+          schema-url: 'https://raw.githubusercontent.com/Biswajee/schema-validator-action/master/src/resources/sample-schema.json'
+          json-url: 'https://raw.githubusercontent.com/Biswajee/schema-validator-action/master/src/resources/sample-data.json'
