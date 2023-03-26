@@ -32,7 +32,6 @@ const decideInputResources = async (tmpDir: string): Promise<void> => {
     jsonFileUrl,
     schemaFilePath,
     jsonFilePath,
-    runnerTemporaryPath,
   } = getInputs();
 
   // If the schemaFileUrl and jsonFileUrl are both defined
@@ -108,6 +107,11 @@ const decideInputResources = async (tmpDir: string): Promise<void> => {
       'Input parameters are not properly defined. Please read the documentation to understand more.',
     );
   }
+
+  fs.readdirSync(tmpDir).forEach(file => {
+    console.log("Write: " + file);
+  });
+
 };
 
 // Evaluate the JSON file against the schema
@@ -117,7 +121,7 @@ const evaluate = (tmpDir: string): boolean => {
 
 
   fs.readdirSync(tmpDir).forEach(file => {
-    console.log(file);
+    console.log("Read: " + file);
   });
 
   const schema = JSON.parse(
