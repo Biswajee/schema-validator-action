@@ -3,6 +3,7 @@ import * as tmp from 'tmp';
 import fs from 'fs';
 import fse from 'fs-extra';
 import path from 'path';
+import axios from 'axios';
 import Ajv, { JSONSchemaType } from 'ajv';
 
 tmp.setGracefulCleanup();
@@ -21,7 +22,7 @@ const getInputs = () => ({
 
 // Helper function to download a file
 const downloadFile = (downloadUrl: string): Promise<any> => {
-  return fetch(downloadUrl).then((response) => response.json());
+  return axios.get(downloadUrl).then((response) => response.data);
 };
 
 // Decide what to do based on the input parameters
