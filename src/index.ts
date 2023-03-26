@@ -22,7 +22,7 @@ const getInputs = () => ({
 
 // Helper function to download a file
 const downloadFile = (downloadUrl: string): Promise<any> => {
-  return axios.get(downloadUrl).then(async (response) => JSON.stringify(await response.data));
+  return axios.get(downloadUrl).then((response) => response.data);
 };
 
 // Decide what to do based on the input parameters
@@ -47,13 +47,13 @@ const decideInputResources = async (tmpDir: string): Promise<void> => {
     let response = await downloadFile(schemaFileUrl);
     fs.writeFileSync(
       path.join(runnerTemporaryPath, tmpDir, 'schema.json'),
-      response,
+      JSON.stringify(response),
     );
 
     response = downloadFile(jsonFileUrl);
     fs.writeFileSync(
       path.join(runnerTemporaryPath, tmpDir, 'data.json'),
-      response,
+      JSON.stringify(response),
     );
   }
 
