@@ -22,7 +22,7 @@ const getInputs = () => ({
 
 // Helper function to download a file
 const downloadFile = (downloadUrl: string): Promise<any> => {
-  return axios.get(downloadUrl).then((response) => response.data);
+  return axios.get(downloadUrl).then((response) => JSON.stringify(response.data));
 };
 
 // Decide what to do based on the input parameters
