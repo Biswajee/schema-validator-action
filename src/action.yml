@@ -15,17 +15,17 @@ inputs:
     description: 'The URL of the schema file'
     required: false
     default: 'https://example.com/schema.json'
-    
+
   json-url:
     description: 'The URL of the JSON file'
     required: false
     default: 'https://example.com/sample.json'
-    
+
   schema-path:
     description: 'The path to the schema file'
     required: false
     default: 'path/to/schema.json'
-  
+
   json-path:
     description: 'The path to the JSON file'
     required: false

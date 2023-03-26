@@ -1,7 +1,7 @@
 {
-    "firstname": "biswajit",
-    "lastname": "roy",
-    "username": "biswajee",
-    "hobbies": ["coding", "anime", "football"],
-    "age": 25
+  "firstname": "biswajit",
+  "lastname": "roy",
+  "username": "biswajee",
+  "hobbies": ["coding", "anime", "football"],
+  "age": 25
 }
