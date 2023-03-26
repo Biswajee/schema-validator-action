@@ -3,7 +3,7 @@ author: Biswajit Roy <roy.biswajeet161@gmail.com>
 description: 'Validates a JSON/YAML file or url against the provided schema'
 
 runs:
-  using: 'node16'
+  using: 'node18'
   main: 'index.js'
 
 branding:
