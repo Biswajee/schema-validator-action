@@ -46,13 +46,13 @@ const decideInputResources = async (tmpDir: string): Promise<void> => {
 
     let response = await downloadFile(schemaFileUrl);
     fs.writeFileSync(
-      path.join(runnerTemporaryPath, tmpDir, 'schema.json'),
+      path.join(tmpDir, 'schema.json'),
       JSON.stringify(response),
     );
 
     response = downloadFile(jsonFileUrl);
     fs.writeFileSync(
-      path.join(runnerTemporaryPath, tmpDir, 'data.json'),
+      path.join(tmpDir, 'data.json'),
       JSON.stringify(response),
     );
   }
@@ -64,10 +64,10 @@ const decideInputResources = async (tmpDir: string): Promise<void> => {
     );
 
     console.log(`Copying schema data to the temporary folder: ${tmpDir}`);
-    fse.copy(schemaFilePath, path.join(runnerTemporaryPath, tmpDir));
+    fse.copy(schemaFilePath, tmpDir);
 
     console.log(`Copying json data to the temporary folder: ${tmpDir}`);
-    fse.copy(jsonFilePath, path.join(runnerTemporaryPath, tmpDir));
+    fse.copy(jsonFilePath, tmpDir);
   }
 
   // If the schemaFileUrl and jsonFilePath are both defined
@@ -80,12 +80,12 @@ const decideInputResources = async (tmpDir: string): Promise<void> => {
 
     let response = await downloadFile(schemaFileUrl);
     fs.writeFileSync(
-      path.join(runnerTemporaryPath, tmpDir, 'schema.json'),
+      path.join(tmpDir, 'schema.json'),
       response,
     );
 
     console.log(`Copying json data to the temporary folder: ${tmpDir}`);
-    fse.copy(jsonFilePath, path.join(runnerTemporaryPath, tmpDir));
+    fse.copy(jsonFilePath, tmpDir);
   }
 
   // If the schemaFilePath and jsonFileUrl are both defined
@@ -95,12 +95,12 @@ const decideInputResources = async (tmpDir: string): Promise<void> => {
     );
 
     console.log(`Copying schema data to the temporary folder: ${tmpDir}`);
-    fse.copy(schemaFilePath, path.join(runnerTemporaryPath, tmpDir));
+    fse.copy(schemaFilePath, tmpDir);
 
     console.log(`Downloading json data to the temporary folder: ${tmpDir}`);
     let response = await downloadFile(jsonFileUrl);
     fs.writeFileSync(
-      path.join(runnerTemporaryPath, tmpDir, 'data.json'),
+      path.join(tmpDir, 'data.json'),
       response,
     );
   } else {
@@ -114,6 +114,11 @@ const decideInputResources = async (tmpDir: string): Promise<void> => {
 const evaluate = (tmpDir: string): boolean => {
   const ajv = new Ajv();
   console.log(`Attempting to parse the schema and data files at: ${tmpDir}`);
+
+
+  fs.readdirSync(tmpDir).forEach(file => {
+    console.log(file);
+  });
 
   const schema = JSON.parse(
     fs.readFileSync(`${tmpDir}/schema.json`, { encoding: 'utf-8' }),
@@ -140,10 +145,11 @@ const exec = async (): Promise<void> => {
     const { runnerTemporaryPath } = getInputs();
 
     const tmpDir = tmp.dirSync({ dir: runnerTemporaryPath }).name;
-    fs.mkdirSync(path.join(runnerTemporaryPath, tmpDir), { recursive: true });
+    const workingDirectory = path.join(runnerTemporaryPath, tmpDir);
+    fs.mkdirSync(workingDirectory, { recursive: true });
 
-    decideInputResources(tmpDir);
-    const result = evaluate(tmpDir);
+    decideInputResources(workingDirectory);
+    const result = evaluate(workingDirectory);
     if (!result)
       core.setFailed(
         'Data validation failed. Please check if the data is vaild!',
